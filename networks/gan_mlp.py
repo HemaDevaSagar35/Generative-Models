@@ -18,15 +18,31 @@ class Discriminator(nn.Module):
     def __init__(self):
         super(Discriminator, self).__init__()
         self.layer_1 = nn.Linear(784, 1024)
+        self.batch_norm_1 = nn.BatchNorm1d(1024)
+
         self.layer_2 = nn.Linear(1024, 512)
+        self.batch_norm_2 = nn.BatchNorm1d(512)
+
         self.layer_3 = nn.Linear(512, 256)
+        self.batch_norm_3 = nn.BatchNorm1d(256)
+
         self.layer_4 = nn.Linear(256, 2)
     
     def forward(self, input):
         output = nn.LeakyReLU()(self.layer_1(input))
+        output = self.batch_norm_1(output)
+        print(output.std())
+
         output = nn.LeakyReLU()(self.layer_2(output))
+        output = self.batch_norm_2(output)
+        print(output.std())
+
         output = nn.LeakyReLU()(self.layer_3(output))
+        output = self.batch_norm_3(output)
+        print(output.std())
+        
         output = self.layer_4(output)
+        print(output)
 
         return output
 
@@ -39,6 +55,7 @@ class Generator(nn.Module):
     def __init__(self):
         super(Generator, self).__init__()
         self.layer_1 = nn.Linear(100, 256)
+        
         self.layer_2 = nn.Linear(256, 512)
         self.layer_3 = nn.Linear(512,1024)
         self.layer_4 = nn.Linear(1024, 784)
@@ -60,6 +77,8 @@ class GAN(nn.Module):
         super(GAN, self).__init__()
         self.generator = generator
         self.discriminator = discrimator
+        for param in self.discriminator.parameters():
+            param.requires_grad = False
   
     def forward(self, input):
         output = self.generator(input)

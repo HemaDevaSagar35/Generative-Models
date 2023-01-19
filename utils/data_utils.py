@@ -13,7 +13,7 @@ class MnistDataset(Dataset):
     def __getitem__(self, idx):
         target = self.data.iloc[idx, 0]
         image = self.data.iloc[idx, 1:].values
-        image = image.reshape((28, 28))
+        #image = image.reshape((28, 28))
         if self.transform:
             image = self.transform(image)
         

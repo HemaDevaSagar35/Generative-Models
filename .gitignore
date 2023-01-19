@@ -2,3 +2,5 @@ Jupyter Utilities
 data/MNIST/
 GAN-MLP/__pycache__
 networks/__pycache__
+utils/__pycache__
+utils/__pycache__/data_utils.cpython-38.pyc
